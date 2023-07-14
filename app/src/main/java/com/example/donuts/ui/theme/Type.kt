@@ -18,14 +18,16 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 18.sp,
-        letterSpacing = 0.7.sp
+        letterSpacing = 0.7.sp,
+        color = Primary
     ),
     titleLarge = TextStyle(
         fontFamily = Inter,
         fontWeight = FontWeight.Bold,
         fontSize = 54.sp,
         lineHeight = 64.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = Red
     ),
     titleMedium = TextStyle(
         fontFamily = Inter,
