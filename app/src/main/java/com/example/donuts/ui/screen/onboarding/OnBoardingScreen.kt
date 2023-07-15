@@ -25,6 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.donuts.R
+import com.example.donuts.ui.navigation.localNavigationProvider
+import com.example.donuts.ui.screen.home.navigateToHome
 import com.example.donuts.ui.theme.Secondary
 import com.example.donuts.ui.theme.Typography
 
@@ -34,7 +36,8 @@ import com.example.donuts.ui.theme.Typography
 
 @Composable
 fun OnBoardingScreen() {
-    OnBoardingContent(onClickGetStart = {})
+    val navController = localNavigationProvider.current
+    OnBoardingContent(onClickGetStart = { navController.navigateToHome() })
 }
 
 @OptIn(ExperimentalFoundationApi::class)
