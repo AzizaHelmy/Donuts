@@ -8,10 +8,16 @@ import androidx.compose.ui.unit.sp
 val Typography = Typography(
     bodyLarge = TextStyle(
         fontFamily = Inter,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight.Bold,
         fontSize = 18.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = Inter,
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        color = SecondaryText
     ),
     bodySmall = TextStyle(
         fontFamily = Inter,
@@ -34,7 +40,8 @@ val Typography = Typography(
         fontWeight = FontWeight.SemiBold,
         fontSize = 30.sp,
         lineHeight = 44.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = Red
     ),
     titleSmall = TextStyle(
         fontFamily = Inter,
