@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,8 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.donuts.R
-import com.example.donuts.ui.navigation.localNavigationProvider
-import com.example.donuts.ui.screen.home.navigateToHome
+import com.example.donuts.ui.composable.DefaultButton
 import com.example.donuts.ui.theme.Secondary
 import com.example.donuts.ui.theme.Typography
 
@@ -36,8 +33,8 @@ import com.example.donuts.ui.theme.Typography
 
 @Composable
 fun OnBoardingScreen() {
-    val navController = localNavigationProvider.current
-    OnBoardingContent(onClickGetStart = { navController.navigateToHome() })
+    // val navController = localNavigationProvider.current
+    OnBoardingContent(onClickGetStart = { })
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -78,19 +75,17 @@ fun OnBoardingContent(onClickGetStart: () -> Unit) {
                 text = stringResource(R.string.gonuts_with_donuts_is_a_sri_lanka_dedicated_food_outlets_for_specialize_manufacturing_of_donuts_in_colombo_sri_lanka),
                 style = Typography.bodySmall
             )
-            Button(modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.White, contentColor = Color.Black
-                ),
-                onClick = onClickGetStart) {
-                Text(text = stringResource(R.string.get_started), modifier = Modifier.padding(8.dp))
-            }
+            DefaultButton(
+                text = stringResource(R.string.get_started),
+                containerColor = Color.White,
+                contentColor = Color.Black,
+                onClick = onClickGetStart
+            )
         }
     }
 
 }
+
 
 @Preview(showSystemUi = true)
 @Composable
