@@ -11,7 +11,8 @@ import javax.inject.Inject
  */
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : BaseViewModel<HomeUiState>(HomeUiState()) {
+class HomeViewModel @Inject constructor() : BaseViewModel<HomeUiState>(HomeUiState()),
+    HomeInteractionsListener {
 
     init {
         getDonutsOffers()
@@ -118,5 +119,13 @@ class HomeViewModel @Inject constructor() : BaseViewModel<HomeUiState>(HomeUiSta
                 )
             )
         }
+    }
+
+    override fun onDonutOfferClicked() {
+
+    }
+
+    override fun onFavClicked() {
+
     }
 }

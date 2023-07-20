@@ -38,7 +38,12 @@ import com.example.donuts.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DonutsOffersItem(backgroundTint: Color, state: OffersUiState) {
+fun DonutsOffersItem(
+    backgroundTint: Color,
+    state: OffersUiState,
+    onClickDonut: () -> Unit = {},
+    onClickFavorite: () -> Unit = {}
+) {
     Box {
         Card(
             modifier = Modifier
@@ -46,13 +51,13 @@ fun DonutsOffersItem(backgroundTint: Color, state: OffersUiState) {
                 .height(325.dp)
                 .clip(RoundedCornerShape(20.dp)),
             colors = CardDefaults.cardColors(backgroundTint),
-            onClick = { }
+            onClick = onClickDonut
         ) {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                IconFavorite()
+                IconFavorite(onClickFavorite = onClickFavorite)
                 Column(modifier = Modifier.padding(start = 20.dp, end = 16.dp)) {
                     Text(
                         text = state.name,

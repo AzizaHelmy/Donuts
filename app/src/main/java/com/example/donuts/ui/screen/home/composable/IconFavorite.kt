@@ -1,6 +1,7 @@
 package com.example.donuts.ui.screen.home.composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,11 +19,12 @@ import com.example.donuts.R
  */
 
 @Composable
-fun IconFavorite(modifier: Modifier = Modifier) {
+fun IconFavorite(modifier: Modifier = Modifier, onClickFavorite: () -> Unit = {}) {
     Box(
         modifier = modifier
             .padding(8.dp)
             .size(34.dp)
+            .clickable { onClickFavorite( )}
             .background(
                 shape = CircleShape,
                 color = Color.White
