@@ -2,6 +2,8 @@ package com.example.donuts.ui.screen.details
 
 import com.example.donuts.ui.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 /**
@@ -11,6 +13,16 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailsViewModel @Inject constructor() : BaseViewModel<DetailsUiState>(DetailsUiState()),
     DetailsInteractionsListener {
+
+    override fun onClickIncrease() {
+
+
+    }
+
+    override fun onClickDecrease() {
+
+
+    }
 
 
 }

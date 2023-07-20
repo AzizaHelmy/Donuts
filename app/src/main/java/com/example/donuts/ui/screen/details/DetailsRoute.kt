@@ -14,7 +14,9 @@ private val ROUTE = Screen.Details.route
 fun NavController.navigateToDetails() {
     navigate(ROUTE)
 }
-
+/*fun NavController.navigateToDetails(id:Int) {
+    navigate("$ROUTE/$id")
+}*/
 
 fun NavGraphBuilder.detailsRoute() {
     composable(ROUTE) { DetailsScreen() }

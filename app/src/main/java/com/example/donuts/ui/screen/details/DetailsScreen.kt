@@ -2,6 +2,7 @@ package com.example.donuts.ui.screen.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
@@ -31,11 +33,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.donuts.R
 import com.example.donuts.ui.composable.DefaultButton
 import com.example.donuts.ui.composable.RoundedButton
+import com.example.donuts.ui.navigation.localNavigationProvider
 import com.example.donuts.ui.theme.Primary
 import com.example.donuts.ui.theme.PrimaryText
 import com.example.donuts.ui.theme.Secondary
 import com.example.donuts.ui.theme.SecondaryText
 import com.example.donuts.ui.theme.Typography
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**
  * Created by Aziza Helmy on 7/15/2023.
@@ -44,11 +48,18 @@ import com.example.donuts.ui.theme.Typography
 @Composable
 fun DetailsScreen(viewModel: DetailsViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
-    DetailsContent(state = state)
+    val navController = localNavigationProvider.current
+    val systemUiControl = rememberSystemUiController()
+    systemUiControl.setStatusBarColor(color = Secondary, darkIcons = true)
+    DetailsContent(state = state, onClickBack = { navController.navigateUp() })
 }
 
 @Composable
-fun DetailsContent(state: DetailsUiState, onClickAddToCart: () -> Unit = {}) {
+fun DetailsContent(
+    state: DetailsUiState,
+    onClickAddToCart: () -> Unit = {},
+    onClickBack: () -> Unit = {}
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -72,15 +83,12 @@ fun DetailsContent(state: DetailsUiState, onClickAddToCart: () -> Unit = {}) {
             }
             Image(
                 painter = painterResource(id = R.drawable.icon_round_arrow_back),
-                contentDescription = "back image", modifier = Modifier.padding(24.dp)
+                contentDescription = "back image",
+                modifier = Modifier
+                    .padding(24.dp)
+                    .clickable { onClickBack() }
             )
         }
-        RoundedButton(backgroundTintColor = Primary, content = {
-            Image(
-                painter = painterResource(id = R.drawable.icon_round_fav),
-                contentDescription = ""
-            )
-        })
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -106,15 +114,16 @@ fun DetailsContent(state: DetailsUiState, onClickAddToCart: () -> Unit = {}) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                RoundedButton(backgroundTintColor = Color.Gray,
+                RoundedButton(backgroundTintColor = Color.Black,
                     content = {
                         Text(
                             text = "-",
-                            style = Typography.titleMedium.copy(color = Color.Black),
+                            style = Typography.titleMedium.copy(color = Color.White),
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                         )
                     }) {}
-                RoundedButton(backgroundTintColor = Color.White,
+                RoundedButton(
+                    backgroundTintColor = Color.White,
                     content = {
                         Text(
                             text = "1", style = Typography.titleMedium.copy(color = Color.Black),

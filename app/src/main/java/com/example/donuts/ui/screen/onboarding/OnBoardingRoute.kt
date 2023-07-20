@@ -1,5 +1,8 @@
 package com.example.donuts.ui.screen.onboarding
 
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
 import com.example.donuts.ui.navigation.Screen
 
 /**
@@ -8,3 +11,10 @@ import com.example.donuts.ui.navigation.Screen
 
 private val ROUTE=Screen.OnBoarding.route
 
+fun NavController.navigateToOnBoard() {
+    navigate(ROUTE)
+}
+
+fun NavGraphBuilder.onBoardRoute() {
+    composable(ROUTE) { OnBoardingScreen() }
+}

@@ -13,12 +13,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.donuts.R
+import com.example.donuts.ui.navigation.localNavigationProvider
+import com.example.donuts.ui.screen.details.navigateToDetails
 import com.example.donuts.ui.screen.home.composable.DonutsItem
 import com.example.donuts.ui.screen.home.composable.DonutsOffersItem
 import com.example.donuts.ui.screen.home.composable.HomeHeader
@@ -26,19 +29,22 @@ import com.example.donuts.ui.theme.Background
 import com.example.donuts.ui.theme.BlueCard
 import com.example.donuts.ui.theme.Secondary
 import com.example.donuts.ui.theme.Typography
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 /**
  * Created by Aziza Helmy on 7/15/2023.
  */
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
-    // val navController = localNavigationProvider.current
+    val systemUiControl = rememberSystemUiController()
+    systemUiControl.setStatusBarColor(color = Transparent, darkIcons = true)
+    val navController = localNavigationProvider.current
     val state by viewModel.state.collectAsState()
-    HomeContent(state)
+    HomeContent(state, onClickDonut = { navController.navigateToDetails() })
 }
 
 @Composable
-fun HomeContent(homeUiState: HomeUiState) {
+fun HomeContent(homeUiState: HomeUiState, onClickDonut: () -> Unit = {}) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 24.dp),
         modifier = Modifier
@@ -68,7 +74,7 @@ fun HomeContent(homeUiState: HomeUiState) {
             ) {
                 itemsIndexed(homeUiState.offers) { index, item ->
                     val color = if (index % 2 != 0) Secondary else BlueCard
-                    DonutsOffersItem(backgroundTint = color, item)
+                    DonutsOffersItem(backgroundTint = color, item, onClickDonut = onClickDonut)
                 }
             }
         }

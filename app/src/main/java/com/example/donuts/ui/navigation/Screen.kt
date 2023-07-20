@@ -8,8 +8,9 @@ import com.example.donuts.R
 
 sealed class Screen(
     val route: String,
-    title: String = "",
-    icon: Int = 0
+    val title: String = "",
+    val icon: Int = 0,
+    val iconSelected: Int = R.drawable.icon_home
 ) {
     object OnBoarding : Screen(route = "OnBoarding")
 
