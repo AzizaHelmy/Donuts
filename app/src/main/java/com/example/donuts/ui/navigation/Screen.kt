@@ -9,28 +9,48 @@ import com.example.donuts.R
 sealed class Screen(
     val route: String,
     val title: String = "",
-    val icon: Int = 0,
-    val iconSelected: Int = R.drawable.icon_home
+    val selectedIcon: Int = 0,
+    val notSelectedIcon: Int = R.drawable.icon_home
 ) {
     object OnBoarding : Screen(route = "OnBoarding")
 
     object Details : Screen(route = "Details")
 
-    object Home : Screen(route = "Home", title = "Home", icon = R.drawable.icon_home)
+    object Home : Screen(
+        route = "Home",
+        title = "Home",
+        selectedIcon = R.drawable.icon_home_filled,
+        notSelectedIcon = R.drawable.icon_home
+    )
 
-    object Favorites :
-        Screen(route = "Favorites", title = "Favorites", icon = R.drawable.icon_heart)
+    object Favorites : Screen(
+        route = "Favorites",
+        title = "Favorites",
+        selectedIcon = R.drawable.icon_heart_filled,
+        notSelectedIcon = R.drawable.icon_heart
+    )
 
     object Notification :
         Screen(
             route = "Notification",
             title = "Notification",
-            icon = R.drawable.icon_notification
+            selectedIcon = R.drawable.icon_notification_filled,
+            notSelectedIcon = R.drawable.icon_notification
         )
 
-    object Cart : Screen(route = "Cart", title = "Cart", icon = R.drawable.icon_buy)
+    object Cart : Screen(
+        route = "Cart",
+        title = "Cart",
+        selectedIcon = R.drawable.icon_buy_filled,
+        notSelectedIcon = R.drawable.icon_buy
+    )
 
     object Profile :
-        Screen(route = "Profile", title = "Profile", icon = R.drawable.icon_user)
+        Screen(
+            route = "Profile",
+            title = "Profile",
+            selectedIcon = R.drawable.icon_user_filled,
+            notSelectedIcon = R.drawable.icon_user
+        )
 }
 

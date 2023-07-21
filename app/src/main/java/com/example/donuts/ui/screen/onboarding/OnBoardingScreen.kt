@@ -26,7 +26,6 @@ import com.example.donuts.R
 import com.example.donuts.ui.composable.DefaultButton
 import com.example.donuts.ui.navigation.localNavigationProvider
 import com.example.donuts.ui.screen.home.navigateToHome
-import com.example.donuts.ui.theme.Primary
 import com.example.donuts.ui.theme.Secondary
 import com.example.donuts.ui.theme.Typography
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -37,10 +36,13 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun OnBoardingScreen() {
-    val navController = localNavigationProvider.current
+
     val systemUiControl = rememberSystemUiController()
     systemUiControl.setStatusBarColor(color = Secondary, darkIcons = true)
+
+    val navController = localNavigationProvider.current
     OnBoardingContent(onClickGetStart = { navController.navigateToHome() })
+
 }
 
 @OptIn(ExperimentalFoundationApi::class)
