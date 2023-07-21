@@ -34,17 +34,29 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 /**
  * Created by Aziza Helmy on 7/15/2023.
  */
+
 @Composable
 fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
+
     val systemUiControl = rememberSystemUiController()
     systemUiControl.setStatusBarColor(color = Transparent, darkIcons = true)
+
     val navController = localNavigationProvider.current
     val state by viewModel.state.collectAsState()
-    HomeContent(state, onClickDonut = { navController.navigateToDetails() })
+
+    HomeContent(
+        state,
+        onClickDonut = { navController.navigateToDetails(it) },
+        homeInteractionsListener = viewModel
+    )
 }
 
 @Composable
-fun HomeContent(homeUiState: HomeUiState, onClickDonut: () -> Unit = {}) {
+fun HomeContent(
+    homeUiState: HomeUiState,
+    onClickDonut: (String) -> Unit = {},
+    homeInteractionsListener: HomeInteractionsListener
+) {
     LazyColumn(
         contentPadding = PaddingValues(vertical = 24.dp),
         modifier = Modifier
@@ -74,7 +86,13 @@ fun HomeContent(homeUiState: HomeUiState, onClickDonut: () -> Unit = {}) {
             ) {
                 itemsIndexed(homeUiState.offers) { index, item ->
                     val color = if (index % 2 != 0) Secondary else BlueCard
-                    DonutsOffersItem(backgroundTint = color, item, onClickDonut = onClickDonut)
+                    DonutsOffersItem(
+                        backgroundTint = color,
+                        item,
+                        onClickDonut = onClickDonut,
+                        donutName = item.name,
+                        onClickFavorite = { homeInteractionsListener.onClickFavorite(index) }
+                    )
                 }
             }
         }

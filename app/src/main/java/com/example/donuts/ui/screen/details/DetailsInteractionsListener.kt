@@ -6,6 +6,8 @@ package com.example.donuts.ui.screen.details
 interface DetailsInteractionsListener {
     fun onClickIncrease()
     fun onClickDecrease()
+    fun onClickAddToCart()
+    fun onClickFavorite()
 
 
 }

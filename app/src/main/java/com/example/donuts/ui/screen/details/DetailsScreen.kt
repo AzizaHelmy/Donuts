@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.AbsoluteRoundedCornerShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -24,11 +26,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.donuts.R
 import com.example.donuts.ui.composable.DefaultButton
@@ -49,16 +55,22 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 fun DetailsScreen(viewModel: DetailsViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
     val navController = localNavigationProvider.current
+
     val systemUiControl = rememberSystemUiController()
     systemUiControl.setStatusBarColor(color = Secondary, darkIcons = true)
-    DetailsContent(state = state, onClickBack = { navController.navigateUp() })
+
+    DetailsContent(
+        state = state,
+        onClickBack = { navController.navigateUp() },
+        detailsInteractionsListener = viewModel
+    )
 }
 
 @Composable
 fun DetailsContent(
     state: DetailsUiState,
-    onClickAddToCart: () -> Unit = {},
-    onClickBack: () -> Unit = {}
+    onClickBack: () -> Unit = {},
+    detailsInteractionsListener: DetailsInteractionsListener
 ) {
     Column(
         modifier = Modifier
@@ -73,7 +85,7 @@ fun DetailsContent(
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.image_10),
+                    painter = painterResource(id = state.image),
                     contentDescription = "Donut Image",
                     modifier = Modifier.size(220.dp),
                     contentScale = ContentScale.FillWidth,
@@ -89,6 +101,22 @@ fun DetailsContent(
                     .clickable { onClickBack() }
             )
         }
+        Card(
+            modifier = Modifier
+                .zIndex(5f)
+                .padding(end = 32.dp)
+        ) {
+            Icon(
+                modifier = Modifier
+                    .clip(shape = RoundedCornerShape(8.dp))
+                    .background(White)
+                    .padding(4.dp),
+                painter = painterResource(id = R.drawable.icon_fav),
+                contentDescription = "",
+                tint = Primary
+            )
+        }
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -103,51 +131,63 @@ fun DetailsContent(
             horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(text = "Strawberry Wheel", style = Typography.titleMedium)
-            Text(text = "About Gonut", style = Typography.bodyMedium.copy(color = PrimaryText))
+
+            Text(text = state.name, style = Typography.titleMedium)
             Text(
-                text = "These soft, cake-like Strawberry Frosted Donuts feature fresh strawberries and a delicious fresh strawberry glaze frosting. Pretty enough for company and the perfect treat to satisfy your sweet tooth.",
+                text = stringResource(R.string.about_gonut),
+                style = Typography.titleSmall.copy(color = PrimaryText)
+            )
+            Text(
+                text = state.description,
                 style = Typography.bodySmall.copy(color = SecondaryText)
             )
-            Text(text = "Quantity")
+            Text(
+                text = stringResource(R.string.quantity),
+                style = Typography.titleSmall.copy(color = PrimaryText)
+            )
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                RoundedButton(backgroundTintColor = Color.Black,
-                    content = {
-                        Text(
-                            text = "-",
-                            style = Typography.titleMedium.copy(color = Color.White),
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
-                        )
-                    }) {}
                 RoundedButton(
                     backgroundTintColor = Color.White,
                     content = {
                         Text(
-                            text = "1", style = Typography.titleMedium.copy(color = Color.Black),
-                            modifier = Modifier.padding(8.dp)
+                            text = "-",
+                            style = Typography.titleMedium.copy(color = Color.Black),
                         )
-                    }) {}
+                    }, onClick = detailsInteractionsListener::onClickDecrease
+                )
+                RoundedButton(
+                    backgroundTintColor = Color.White,
+                    content = {
+                        Text(
+                            text = state.quantity.toString(),
+                            style = Typography.bodyLarge.copy(color = Color.Black),
+                        )
+                    },
+                )
                 RoundedButton(backgroundTintColor = Color.Black, content = {
                     Text(
                         text = "+",
                         style = Typography.titleMedium.copy(color = Color.White),
                         color = Color.White,
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp)
                     )
-                }) {}
+                }, onClick = detailsInteractionsListener::onClickIncrease)
             }
             Spacer(modifier = Modifier.weight(1f))
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(bottom = 64.dp)
+                    .padding(bottom = 44.dp)
                     .fillMaxWidth()
             ) {
-                Text(text = "£16", style = Typography.bodyLarge)
+                val totalPrice = state.quantity * (state.price).toInt()
+                Text(
+                    text = "$$totalPrice",
+                    style = Typography.titleMedium.copy(color = Black, fontSize = 18.sp)
+                )
                 DefaultButton(
                     text = stringResource(R.string.add_to_cart),
                     containerColor = Primary,
