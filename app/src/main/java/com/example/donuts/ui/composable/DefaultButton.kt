@@ -35,7 +35,7 @@ fun DefaultButton(
         Text(
             text = text,
             modifier = Modifier.padding(8.dp),
-            style = Typography.labelLarge
+            style = Typography.titleSmall
         )
     }
 }
